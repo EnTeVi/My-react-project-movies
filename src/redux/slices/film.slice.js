@@ -1,9 +1,14 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+
 import {filmService} from "../../services";
+import {store} from "../store";
 
 
 const initialState = {
     films: [],
+    genres:[],
+    selectedGenre:0,
+    selectedSearch: 0,
     errors: null,
     filmForUpdate: null,
     loading: false
@@ -14,6 +19,53 @@ const getAll = createAsyncThunk(
     async (_, {rejectedWithValue}) => {
         try {
             const {data} = await filmService.getAll();
+            console.log("FILM DATA ",data)
+            return data;
+        } catch (e) {
+            return rejectedWithValue(e.response.data());
+        }
+    }
+)
+
+const getAllGenres = createAsyncThunk(
+    'filmSlice/genres',
+    async (_, {rejectedWithValue}) => {
+        try {
+            const {data} = await filmService.genres();
+            return data;
+        } catch (e) {
+            return rejectedWithValue(e.response.data());
+        }
+    }
+)
+function selectedGen (){
+    console.log("store", store.getState());
+    return store.getState()["selectedGenre"].selectedGenre;
+}
+const getFilteredFilms = createAsyncThunk(
+    'filmSlice/filteredFilms',
+    async (_, {rejectedWithValue}) => {
+        try {
+            const {data} = await filmService.filmsWithGenres(selectedGen());
+            return data;
+        } catch (e) {
+            return rejectedWithValue(e.response.data());
+        }
+    }
+)
+
+
+
+function selectedSearch (){
+    console.log("store", store.getState());
+    return store.getState()["selectedSearch"].selectedSearch;
+}
+
+const getSearchFilms = createAsyncThunk(
+    'filmSlice/searchFilms',
+    async (_, {rejectedWithValue}) => {
+        try {
+            const {data} =await filmService.search(selectedSearch());
             return data;
         } catch (e) {
             return rejectedWithValue(e.response.data());
@@ -24,107 +76,52 @@ const getAll = createAsyncThunk(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-const create = createAsyncThunk(
-    "filmSlice/create",
-    async ({film}, {rejectWithValue}) => {
-        try {
-            const {data} = await filmService.create(film);
-            return data;
-        } catch (e) {
-            return rejectWithValue(e.response.data);
-        }
-    }
-);
-
-const deleteFilm = createAsyncThunk(
-    "filmSlice/deleteById",
-    async ({id}, {rejectWithValue}) => {
-        try {
-            await filmService.deleteById(id);
-            return id;
-        } catch (e) {
-            return rejectWithValue(e.response.data)
-        }
-    }
-);
-
-const updateById = createAsyncThunk(
-    "filmSlice/updateById",
-    async ({id, film}, {rejectWithValue}) => {
-        try {
-            const {data} = await filmService.updateById(id, film);
-            return data;
-        } catch (e) {
-            return rejectWithValue(e.response.data)
-        }
-    }
-);
-
-
-
-
-
-
 const filmSlice = createSlice({
     name: 'filmSlice',
     initialState,
     reducers: {
-        setFilmForUpdate: (state, action) => {
-            state.filmForUpdate = action.payload;
+        setSelectedSearch: (state, action) => {
+            state.selectedSearch = action.payload;
+        },
+        setSelectedGenre:(state, action) => {
+            state.selectedGenre = action.payload;
         }
     },
     extraReducers: builder =>
         builder
             .addCase(getAll.fulfilled, (state, action) => {
-                state.films = action.payload;
+                state.films = action.payload.results;
                 state.errors = null;
                 state.loading = false;
             })
             .addCase(getAll.pending, (state, action) => {
                 state.loading = true;
             })
-            .addCase(create.fulfilled, (state, action) => {
-                state.films.push(action.payload);
+            .addCase(getAllGenres.fulfilled, (state, action) => {
+                state.genres = action.payload.genres;
+                state.errors = null;
+                state.loading = false;
             })
-            .addCase(deleteFilm.fulfilled, (state, action) =>{
-                const filmIndex = state.films.findIndex(value => value.id === action.payload);
-                state.films.splice(filmIndex,1);
+            .addCase(getFilteredFilms.fulfilled, (state, action) => {
+                state.films = action.payload.results;
+                state.errors = null;
+                state.loading = false;
             })
-            .addCase(updateById.fulfilled, (state, action) => {
-                const findFilm = state.films.find(value => value.id === action.payload.id);
-                Object.assign(findFilm,action.payload);
-                state.filmForUpdate = null;
-            })
-            .addDefaultCase((state, action) => {
-                const [pathElement] = action.type.split('/').splice(-1);
-                if (pathElement === 'rejected') {
-                    state.errors = action.payload;
-                    state.loading = false;
-                } else {
-                    state.errors = null;
-                }
+            .addCase(getSearchFilms.fulfilled, (state, action) => {
+                state.films = action.payload.results;
+                state.errors = null;
+                state.loading = false;
             })
 
 
 });
 
-const {reducer: filmReducer, actions: {setFilmForUpdate}} = filmSlice;
+
+
+const {reducer: filmReducer, actions: {setSelectedGenre, setSelectedSearch}} = filmSlice;
 
 const filmActions = {
-    getAll, create, deleteFilm, updateById, setFilmForUpdate
+    getAll, getAllGenres, getFilteredFilms, getSearchFilms, setSelectedSearch, setSelectedGenre
 };
 
 export {

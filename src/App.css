@@ -5,6 +5,7 @@
   left: -15%;
   border: 1px solid black;
   border-radius: 50px;
+  background-image: radial-gradient(circle, #d7dad4, #cfd7d1, #c6d3d0, #bed0d0, #b8cbd1, #b5c8d4, #b4c5d7, #b7c1d8, #babfdd, #c0bce0, #c9b9e1, #d3b5e0);
 }
 
 .App-logo {
@@ -44,4 +45,6 @@
 
 .block {
   height: auto;
+  background-color: var(--background-color);
 }
+

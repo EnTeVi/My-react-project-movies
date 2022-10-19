@@ -3,13 +3,20 @@ import {filmReducer} from "./slices/film.slice";
 
 
 const rootReducer = combineReducers({
-    films: filmReducer
+    films: filmReducer,
+    genres: filmReducer,
+    selectedGenre: filmReducer,
+    selectedSearch: filmReducer
+
 });
 
-const serupStore = () => configureStore({
+const setupStore = () => configureStore({
     reducer: rootReducer
 });
 
+
+const store = setupStore();
+
 export {
-    serupStore
+    store
 }

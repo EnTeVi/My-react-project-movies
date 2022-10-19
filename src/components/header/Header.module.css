@@ -1,0 +1,88 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 70px;
+    background-color: blueviolet;
+    border-radius: 50px 50px 0 0;
+}
+
+.boxLogo {
+    display: flex;
+    justify-content: flex-start;
+    width: 33.3%;
+}
+
+.boxSearch {
+    display: flex;
+    justify-content: center;
+    width: 33.3%;
+}
+
+.boxButton {
+    display: flex;
+    justify-content: space-around;
+    width: 33.3%;
+}
+
+.boxButton button {
+    width: 100px;
+    height: 30px;
+    margin: 20px 0;
+    font-size: 10px;
+}
+
+.boxLogo img {
+    width: 50px;
+    height: 50px;
+    margin: 10px 10px 10px 30px;
+}
+
+.boxButton img {
+    width: 50px;
+}
+
+.switch {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.text {
+    width: 50px;
+    height: 40px;
+    margin: 0 5px 15px 5px;
+}
+
+.text h3 {
+    font-style: oblique;
+    font-weight: 400;
+}
+
+h3 {
+    display: table-cell;
+    vertical-align: center;
+    bottom: 20px;
+
+}
+
+input {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.user img {
+    width: 40px;
+    height: 40px;
+    margin: 15px 15px 0 5px;
+    border-radius: 50%;
+
+}

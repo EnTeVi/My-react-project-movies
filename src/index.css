@@ -5,9 +5,38 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: var(--background-image);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+html[data-theme = 'dark'] {
+  --button-text-color: #ffffff;
+  --background-image: linear-gradient(to right bottom, #000000, #141414, #212121, #2e2e2e, #3c3c3c, #464646, #515151, #5c5c5c, #666666, #717171, #7c7c7c, #878787);
+  --color: #ffffff;
+  --background-color: #000000;
+}
+
+html[data-theme = 'light'] {
+  --button-text-color: #ffffff;
+  --background-image: radial-gradient(circle, #d7dad4, #cfd7d1, #c6d3d0, #bed0d0, #b8cbd1, #b5c8d4, #b4c5d7, #b7c1d8, #babfdd, #c0bce0, #c9b9e1, #d3b5e0);
+  --color: #000000;
+  --background-color: #ffffff;
+}
+
+.Development {
+  width: 50%;
+  height: 50px;
+  margin-left: 25%;
+  margin-bottom: -50px;
+  background-color: orange;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.Development:hover {
+  background-color: red;
 }
