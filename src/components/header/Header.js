@@ -38,8 +38,8 @@ function Header () {
                     </div>
                 </div>
                 <div className={css.boxSearch}>
-                    <input placeholder="Search" type="search"/>
-                    {/*<Search/>*/}
+                    {/*<input placeholder="Search" type="search"/>*/}
+                    <Search/>
                 </div>
                 <div className={css.boxButton}>
                     <div className={css.switch}>

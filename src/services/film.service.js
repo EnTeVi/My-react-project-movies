@@ -10,7 +10,7 @@ const restFilmService = {
     getAll: () => axiosService.get(urls.allMovie),
     genres: () => axiosService.get(urls.movieGenders),
     filmsWithGenres: (genres) => axiosService.get(`${urls.allMovie}?with_genres=${genres}`),
-    search: () => axiosService.get(urls.searchMovie)
+    search: () => axiosService.get(urls.searchMovie) /*----- переписати, добавити дані з інпута*/
 }
 
 

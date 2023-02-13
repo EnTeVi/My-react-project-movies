@@ -8,6 +8,7 @@ const initialState = {
     films: [],
     genres:[],
     selectedGenre:0,
+    search: [],
     selectedSearch: 0,
     errors: null,
     filmForUpdate: null,
@@ -57,11 +58,26 @@ const getFilteredFilms = createAsyncThunk(
 
 
 function selectedSearch (){
-    console.log("store", store.getState());
+    console.log("stores", store.getState());
     return store.getState()["selectedSearch"].selectedSearch;
 }
 
+
+
+// не потрібно
 const getSearchFilms = createAsyncThunk(
+    'filmSlice/searchFilms',
+    async (_, {rejectedWithValue}) => {
+        try {
+            const {data} =await filmService.search();
+            return data;
+        } catch (e) {
+            return rejectedWithValue(e.response.data());
+        }
+    }
+)
+
+const getSearchFilteredFilms = createAsyncThunk(
     'filmSlice/searchFilms',
     async (_, {rejectedWithValue}) => {
         try {
@@ -107,7 +123,15 @@ const filmSlice = createSlice({
                 state.errors = null;
                 state.loading = false;
             })
+
+
+            // не потрібно
             .addCase(getSearchFilms.fulfilled, (state, action) => {
+                state.search = action.payload;
+                state.errors = null;
+                state.loading = false;
+            })
+            .addCase(getSearchFilteredFilms.fulfilled, (state, action) => {
                 state.films = action.payload.results;
                 state.errors = null;
                 state.loading = false;
@@ -121,7 +145,7 @@ const filmSlice = createSlice({
 const {reducer: filmReducer, actions: {setSelectedGenre, setSelectedSearch}} = filmSlice;
 
 const filmActions = {
-    getAll, getAllGenres, getFilteredFilms, getSearchFilms, setSelectedSearch, setSelectedGenre
+    getAll, getAllGenres, getFilteredFilms, getSearchFilms, getSearchFilteredFilms, setSelectedSearch, setSelectedGenre
 };
 
 export {

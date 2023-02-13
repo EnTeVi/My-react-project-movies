@@ -15,7 +15,7 @@ function Search () {
 
     return (
         <div>
-            {search.map(searchF => <input placeholder='Search' onChange={() => {
+            {search.map(searchF => <input placeholder='Search' type='text' key={searchF.id} onChange={(searchF) => {
                 dispatch(filmActions.setSelectedSearch(searchF.name));
                 dispatch(filmActions.getSearchFilms());
             }}/>)}
